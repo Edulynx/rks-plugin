@@ -2,6 +2,8 @@
 
 This folder contains `rks-upload`, a standalone tool for uploading files to the shared Zoho WorkDrive folder for the Ramesh Knowledge System project.
 
+> **Version status:** this Linux bundle is the upload-only build (pre-0.2.0). Folder-management subcommands (`ls`, `mkdir`, `rm`, `mv`) and a `--version` flag are available in v0.2.0 on Windows; a matching Linux rebuild is pending. If you need folder ops on Linux right now, ask the project admin (Amitabh) for an updated `rks-upload` binary + `VERSION` file.
+
 ## Quick Start
 
 ```bash

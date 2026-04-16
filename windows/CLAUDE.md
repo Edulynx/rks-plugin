@@ -1,5 +1,7 @@
 # RKS Uploader — Drop-in bundle (Windows)
 
+Current version: see `.\VERSION` (plain text) or run `.\rks-upload.exe --version`. If behaviour here doesn't match what the binary does, that bundle is out of date — ask **Amitabh** for a fresh one.
+
 This folder (`windows`) sits **inside** a user's study-material folder. The user's files (PDFs, EPUBs, slides, notes, images) are in `..` (the parent of this folder). Your job: help the user push those files to the Ramesh Knowledge System shared Zoho WorkDrive, verify receipt, and — only after verification — free up the user's disk space.
 
 ## Layout you can assume
@@ -13,6 +15,7 @@ This folder (`windows`) sits **inside** a user's study-material folder. The user
 ├── slides.pptx
 └── windows\                 ← YOU ARE HERE (cwd when Claude opens this folder)
     ├── rks-upload.exe
+    ├── VERSION                    ← plain-text version string
     ├── CLAUDE.md                  ← this file
     ├── SYSTEM_PROMPT.md
     └── README.md
@@ -30,9 +33,29 @@ The upload target is therefore always `..` (one directory up). Never treat files
 .\rks-upload.exe <folder> --subfolder "Name"  # upload into a named remote subfolder
 .\rks-upload.exe <folder> --all-types         # include every file type
 .\rks-upload.exe --help                       # full usage
+.\rks-upload.exe --version                    # print bundle version
 ```
 
 Defaults: PDF, EPUB, DOC/DOCX, PPT/PPTX, XLS/XLSX, TXT, CSV, PNG, JPG/JPEG.
+
+### Folder management subcommands
+
+The same binary also manages the remote folder tree under *Mr. Ramesh Knowledge System* (nothing outside that root is reachable).
+
+```powershell
+.\rks-upload.exe ls                                # list root contents
+.\rks-upload.exe ls "Physics/Ch3"                  # list a nested path
+.\rks-upload.exe mkdir "Physics/Ch3/Notes"         # create nested folders (mkdir -p)
+.\rks-upload.exe mv "Old/Name" "New/Location"      # move or rename; asks to confirm
+.\rks-upload.exe rm "Old/Folder"                   # move to Zoho trash; asks to confirm
+.\rks-upload.exe rm "Old/Folder" --yes             # skip confirmation
+```
+
+Notes:
+- `rm` always trashes — items are recoverable from the Zoho WorkDrive Trash UI.
+- `mv` handles rename (same parent) and move-across-parents. Destination is always the **full path**, including the final name.
+- Folder names: 2–100 chars, alphanumeric / space / hyphen / underscore / dot, start+end alphanumeric.
+- Legacy one-arg form (`rks-upload.exe <folder>`) still works for uploads — subcommands are additive.
 
 Behaviour:
 - Already-uploaded files (same filename, same remote folder) are **skipped** — the tool is safe to re-run.

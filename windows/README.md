@@ -3,7 +3,8 @@
 Drop this **entire `windows` folder** inside any folder that holds PDFs / EPUBs / slides / notes you want to push to the Ramesh Knowledge System shared drive, then open Claude Code (Windows app) on the `windows` folder. Ask Claude to upload — it will read `CLAUDE.md` and handle the rest, including freeing up disk space once the drive confirms receipt.
 
 ## What's in here
-- `rks-upload.exe` — standalone uploader (no Python / login / config needed)
+- `rks-upload.exe` — standalone uploader + folder manager (no Python / login / config needed)
+- `VERSION` — plain-text version string (also available via `.\rks-upload.exe --version`)
 - `CLAUDE.md` — instructions Claude reads when you open this folder
 - `SYSTEM_PROMPT.md` — stricter rules for the AI assistant
 - `README.md` — this file
