@@ -1,8 +1,8 @@
 # Ramesh Knowledge System — File Uploader
 
-This folder contains `rks-upload`, a standalone tool for uploading files to the shared Zoho WorkDrive folder for the Ramesh Knowledge System project.
+This folder contains `rks-upload`, a standalone tool for uploading files to (and managing folders on) the shared Zoho WorkDrive workspace for the Ramesh Knowledge System project.
 
-> **Version status:** this Linux bundle is the upload-only build (pre-0.2.0). Folder-management subcommands (`ls`, `mkdir`, `rm`, `mv`) and a `--version` flag are available in v0.2.0 on Windows; a matching Linux rebuild is pending. If you need folder ops on Linux right now, ask the project admin (Amitabh) for an updated `rks-upload` binary + `VERSION` file.
+Current version: see `./VERSION` (plain text) or run `./rks-upload --version`. If behaviour here doesn't match what the binary does, that bundle is out of date — ask **Amitabh** for a fresh one.
 
 ## Quick Start
 
@@ -23,8 +23,9 @@ chmod +x ./rks-upload
 # Upload documents (PDF, EPUB, DOCX, PPTX, XLSX, TXT, CSV, PNG, JPG)
 ./rks-upload /path/to/files
 
-# Upload into a named subfolder on the drive
+# Upload into a named (nested OK) subfolder on the drive
 ./rks-upload /path/to/files --subfolder "Chapter-3-Resources"
+./rks-upload /path/to/files --subfolder "Physics/Ch3/Notes"
 
 # Upload ALL file types, not just documents
 ./rks-upload /path/to/files --all-types
@@ -34,7 +35,29 @@ chmod +x ./rks-upload
 
 # Combine flags
 ./rks-upload /path/to/files --subfolder "Notes" --all-types --dry-run
+
+# Version info
+./rks-upload --version
 ```
+
+### Folder-management subcommands
+
+The same binary also manages the remote folder tree under *Mr. Ramesh Knowledge System* (nothing outside that root is reachable).
+
+```bash
+./rks-upload ls                                # list the shared root
+./rks-upload ls "Physics/Ch3"                  # list a nested path
+./rks-upload mkdir "Physics/Ch3/Notes"         # create nested folders (mkdir -p)
+./rks-upload mv "Old/Name" "New/Location"      # move or rename; asks to confirm
+./rks-upload rm "Old/Folder"                   # move to Zoho Trash; asks to confirm
+./rks-upload rm "Old/Folder" --yes             # skip the confirmation prompt
+```
+
+Notes:
+- `rm` always trashes — items stay recoverable from the Zoho WorkDrive Trash UI.
+- `mv` handles rename (same parent) and move-across-parents. Destination is always the **full path** including the final name.
+- Folder name segments: 2–100 chars, alphanumeric / space / hyphen / underscore / dot, start+end alphanumeric.
+- The legacy one-arg form (`./rks-upload <folder>`) still works for uploads — subcommands are additive.
 
 ## Typical Workflows
 
